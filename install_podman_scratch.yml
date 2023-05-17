@@ -2,8 +2,6 @@
   hosts: 127.0.0.1
   become: yes
   tasks:
-    - name: Enable CodeReady Linux Builder repository
-      shell: subscription-manager repos --enable=codeready-builder-for-rhel-8-x86_64-rpms
     - name: Install build dependencies
       dnf:
         name: "{{ item }}"
@@ -20,7 +18,6 @@
         - libacl-devel
         - libblkid-devel
         - libudev-devel
-
     - name: Clone btrfs-progs repository
       git:
         repo: https://github.com/kdave/btrfs-progs.git
