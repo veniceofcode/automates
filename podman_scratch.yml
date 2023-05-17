@@ -1,5 +1,5 @@
 ---
-- name: Install packages using yum
+- name: Install podman from scratch
   hosts: your_host
   become: yes
   tasks:
@@ -26,3 +26,134 @@
           - make
           - pkgconfig
         state: present
+  
+    - name: Set GOPATH environment variable
+      shell: echo "export GOPATH=~/go" >> ~/.bashrc
+    
+    - name: Clone go repository
+      git:
+        repo: https://go.googlesource.com/go
+        dest: "{{ ansible_env.GOPATH }}"
+    
+    - name: Change directory to go
+      shell: cd "{{ ansible_env.GOPATH }}"
+
+    - name: Run all.bash script
+      shell: ./all.bash
+    
+    - name: Add GOPATH/bin to PATH
+      shell: echo "export PATH={{ ansible_env.GOPATH }}/bin:$PATH" >> ~/.bashrc
+
+    - name: Clone conmon repository
+      git:
+       repo: https://github.com/containers/conmon.git
+       dest: conmon
+
+    - name: Change directory to conmon
+      shell: cd conmon
+
+    - name: Set GOCACHE environment variable
+      shell: export GOCACHE="$(mktemp -d)"
+
+    - name: Build conmon
+      shell: make
+
+    - name: Install conmon (requires sudo)
+      become: yes
+      shell: make podman
+
+    - name: Clone runc repository
+      git:
+       repo: https://github.com/opencontainers/runc.git
+       dest: "{{ ansible_env.GOPATH }}/src/github.com/opencontainers/runc"
+
+    - name: Change directory to runc
+      shell: cd "{{ ansible_env.GOPATH }}/src/github.com/opencontainers/runc"
+
+    - name: Build runc with specific build tags
+      shell: make BUILDTAGS="selinux seccomp"
+    
+    - name: Copy runc to /usr/bin
+      become: yes
+      copy:
+        src: "{{ ansible_env.GOPATH }}/src/github.com/opencontainers/runc/runc"
+        dest: /usr/bin/runc
+        mode: "0755"
+ 
+ # In this task, the file module is used to create the /etc/containers directory with the appropriate permissions. Then, the get_url module is used to download the registries.conf and policy.json files from the provided URLs and save them to the /etc/containers directory. 
+ #The become: yes option is used to run the tasks with sudo privileges.   
+    
+    - name: Create /etc/containers directory
+      become: yes
+      file:
+        path: /etc/containers
+        state: directory
+        mode: '0755'
+
+    - name: Download registries.conf
+      become: yes
+      get_url:
+        url: https://src.fedoraproject.org/rpms/containers-common/raw/main/f/registries.conf
+        dest: /etc/containers/registries.conf
+
+    - name: Download policy.json
+      become: yes
+      get_url:
+        url: https://src.fedoraproject.org/rpms/containers-common/raw/main/f/default-policy.json
+        dest: /etc/containers/policy.json
+
+
+    - name: Clone podman repository
+      git:
+       repo: https://github.com/containers/podman.git
+       dest: podman
+
+    - name: Change directory to podman
+      shell: cd podman
+
+    - name: Build podman with specific build tags
+      shell: make BUILDTAGS="selinux seccomp"
+
+    - name: Install podman (requires sudo)
+      become: yes
+      shell: make install PREFIX=/usr
+
+    - name: Create ~/.ansible/roles directory
+      become: yes
+      file:
+        path: ~/.ansible/roles
+        state: directory
+        mode: '0755'
+
+    - name: Clone ansible-role-podman repository
+       become: yes
+       git:
+        repo: https://github.com/alvistack/ansible-role-podman.git
+        dest: ~/.ansible/roles/podman
+
+    - name: Change directory to ansible-role-podman
+       become: yes
+       shell: cd ~/.ansible/roles/podman
+
+    - name: Upgrade pip and install requirements
+      become: yes
+      pip:
+        name: "{{ item }}"
+        state: latest
+      with_file:
+        - ~/.ansible/roles/podman/requirements.txt
+
+    - name: Run molecule converge
+      become: yes
+      command: molecule converge
+      args:
+        chdir: ~/.ansible/roles/podman
+
+    - name: Run molecule verify
+      become: yes
+      command: molecule verify
+      args:
+        chdir: ~/.ansible/roles/podman
+
+
+    
