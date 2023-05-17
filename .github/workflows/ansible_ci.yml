@@ -18,7 +18,8 @@ jobs:
     - name: Copy playbook
       run: |
         mkdir playbook
-        cp -r /automates/install_podman_scratch.yml playbook/
+        pwd
+        cp -r /automates/* playbook/
         working-directory: ${{ github.workspace }}    
 
     - name: Set up Python
