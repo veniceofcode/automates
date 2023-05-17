@@ -1,5 +1,5 @@
 - name: Install podman from scratch
-  hosts: your_host
+  hosts: 127.0.0.1
   become: yes
   tasks:
     - name: Install package(s)
