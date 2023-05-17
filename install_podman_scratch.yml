@@ -34,39 +34,52 @@
       git:
         repo: https://go.googlesource.com/go
         dest: "{{ ansible_env.GOPATH }}"
+      changed_when: false
     - name: Change directory to go
       command: cd "{{ ansible_env.GOPATH }}"
+      changed_when: false
     - name: Run all.bash script
       command: ./all.bash
+      changed_when: false
     - name: Add GOPATH/bin to PATH
       command: echo "export PATH={{ ansible_env.GOPATH }}/bin:$PATH" >> ~/.bashrc
+      changed_when: false
     - name: Clone conmon repository
       git:
        repo: https://github.com/containers/conmon.git
        dest: conmon
+      changed_when: false
     - name: Change directory to conmon
       command: cd conmon
+      changed_when: false
     - name: Set GOCACHE environment variable
       command: export GOCACHE="$(mktemp -d)"
+      changed_when: false
     - name: Build conmon
       command: make
+      changed_when: false
     - name: Install conmon (requires sudo)
       become: yes
       command: make podman
+      changed_when: false
     - name: Clone runc repository
       git:
        repo: https://github.com/opencontainers/runc.git
        dest: "{{ ansible_env.GOPATH }}/src/github.com/opencontainers/runc"
+      changed_when: false
     - name: Change directory to runc
       command: cd "{{ ansible_env.GOPATH }}/src/github.com/opencontainers/runc"
+      changed_when: false
     - name: Build runc with specific build tags
       command: make BUILDTAGS="selinux seccomp"
+      changed_when: false
     - name: Copy runc to /usr/bin
       become: yes
       copy:
         src: "{{ ansible_env.GOPATH }}/src/github.com/opencontainers/runc/runc"
         dest: /usr/bin/runc
         mode: "0755"
+      changed_when: false
  # In this task, the file module is used to create the /etc/containers directory with the appropriate permissions. Then, the get_url module is used to download the registries.conf and policy.json files from the provided URLs and save them to the /etc/containers directory. 
  #The become: yes option is used to run the tasks with sudo privileges.    
     - name: Create /etc/containers directory
@@ -75,11 +88,13 @@
         path: /etc/containers
         state: directory
         mode: '0755'
+      changed_when: false
     - name: Download registries.conf
       become: yes
       get_url:
         url: https://src.fedoraproject.org/rpms/containers-common/raw/main/f/registries.conf
         dest: /etc/containers/registries.conf
+      changed_when: false
     - name: Download policy.json
       become: yes
       get_url:
