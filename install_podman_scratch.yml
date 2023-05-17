@@ -9,12 +9,10 @@
         baseurl: http://mirror.centos.org/centos/8/BaseOS/$basearch/os/
         gpgcheck: yes
         gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
-
     - name: Install btrfs-progs-devel package
       dnf:
         name: btrfs-progs-devel
         state: present
-
     - name: Install package(s)
       yum:
         name:
