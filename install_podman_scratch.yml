@@ -24,6 +24,9 @@
       - make
       - pkgconfig  
   tasks:
+    - name: Debug GOPATH variable
+      debug:
+        var: GOPATH    
     - name: Install yum packages
       yum:
         name: "{{ item }}"
