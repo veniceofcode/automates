@@ -25,7 +25,6 @@
           - make
           - pkgconfig
         state: present
-        changed_when: false
     - name: Set GOPATH environment variable
       command: echo "export GOPATH=~/go" >> ~/.bashrc
       changed_when: false
