@@ -15,12 +15,6 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-    - name: Copy playbook
-      run: |
-        mkdir playbook
-        ls -lart /home/runner/work/automates/automates/
-        cp -r /home/runner/work/automates/* playbook/
-        working-directory: ${{ github.workspace }} 
 
     - name: Set up Python
       uses: actions/setup-python@v2
