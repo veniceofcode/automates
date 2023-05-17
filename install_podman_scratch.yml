@@ -4,7 +4,8 @@
   tasks:
     - name: Enable CodeReady Linux Builder repository
       shell: subscription-manager repos --enable=codeready-builder-for-rhel-8-x86_64-rpms
-
+    - name: Enable EPEL repository
+      shell: dnf install -y epel-release
     - name: Install btrfs-progs-devel package
       yum:
         name: btrfs-progs-devel
