@@ -19,7 +19,7 @@ jobs:
       run: |
         mkdir playbook
         ls -lart /home/runner/work/automates/automates/
-        cp -r /automates/* playbook/
+        cp -r /home/runner/work/automates/automates/* playbook/
         working-directory: ${{ github.workspace }}    
 
     - name: Set up Python
