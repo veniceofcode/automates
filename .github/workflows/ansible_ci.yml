@@ -18,7 +18,7 @@ jobs:
     - name: Copy playbook
       run: |
         mkdir playbook
-        pwd
+        ls -lart /home/runner/work/automates/automates/
         cp -r /automates/* playbook/
         working-directory: ${{ github.workspace }}    
 
