@@ -83,8 +83,6 @@
         dest: /usr/bin/runc
         mode: "0755"
       changed_when: false
- # In this task, the file module is used to create the /etc/containers directory with the appropriate permissions. Then, the get_url module is used to download the registries.conf and policy.json files from the provided URLs and save them to the /etc/containers directory. 
- #The become: yes option is used to run the tasks with sudo privileges.    
     - name: Create /etc/containers directory
       become: yes
       file:
@@ -108,6 +106,7 @@
       git:
        repo: https://github.com/containers/podman.git
        dest: podman
+       version: latest
       changed_when: false
     - name: Change directory to podman
       command: cd podman
@@ -131,6 +130,7 @@
       git:
         repo: https://github.com/alvistack/ansible-role-podman.git
         dest: ~/.ansible/roles/podman
+        version: latest
       changed_when: false
     - name: Change directory to ansible-role-podman
       become: yes
