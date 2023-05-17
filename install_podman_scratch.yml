@@ -33,9 +33,9 @@
         state: present
       loop: "{{ packages_to_install }}"
       ignore_errors: yes
-    - name: Set GOPATH environment variable
-      command: echo "export GOPATH=~/go" >> ~/.bashrc
-      changed_when: false
+#    - name: Set GOPATH environment variable
+#      command: echo "export GOPATH=~/go" >> ~/.bashrc
+#      changed_when: false
     - name: Clone go repository
       git:
         repo: https://go.googlesource.com/go
