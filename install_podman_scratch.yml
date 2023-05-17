@@ -2,6 +2,19 @@
   hosts: 127.0.0.1
   become: yes
   tasks:
+    - name: Enable BaseOS repository
+      dnf_repository:
+        name: baseos
+        description: RHEL 8 BaseOS Repository
+        baseurl: http://mirror.centos.org/centos/8/BaseOS/$basearch/os/
+        gpgcheck: yes
+        gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+
+    - name: Install btrfs-progs-devel package
+      dnf:
+        name: btrfs-progs-devel
+        state: present
+
     - name: Install package(s)
       yum:
         name:
