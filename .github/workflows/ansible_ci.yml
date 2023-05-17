@@ -1,0 +1,30 @@
+name: Ansible Playbook
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+
+    - name: Install Ansible
+      run: pip install ansible
+
+    - name: Run Ansible playbook
+      run: ansible-playbook playbook.yml
+      env:
+        ANSIBLE_HOST_KEY_CHECKING: false
