@@ -12,7 +12,7 @@
     - name: Install btrfs-progs-devel package
       dnf:
         name: btrfs-progs-devel
-        state: present
+        state: present    
     - name: Install package(s)
       yum:
         name:
