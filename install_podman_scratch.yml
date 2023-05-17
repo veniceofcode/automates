@@ -1,4 +1,3 @@
----
 - name: Install podman from scratch
   hosts: your_host
   become: yes
