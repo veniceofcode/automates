@@ -1,0 +1,11 @@
+---
+- name: Install packages using yum
+  hosts: your_host
+  become: yes
+  tasks:
+    - name: Install package(s)
+      yum:
+        name:
+          - package1
+          - package2
+        state: present
