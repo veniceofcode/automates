@@ -22,14 +22,12 @@
       git:
         repo: https://github.com/kdave/btrfs-progs.git
         dest: /tmp/btrfs-progs
-
     - name: Build btrfs-progs
-      shell: |
+      command: |
         cd /tmp/btrfs-progs
         make
-
     - name: Install btrfs-progs
-      shell: |
+      command: |
         cd /tmp/btrfs-progs
         sudo make instal
       yum:
