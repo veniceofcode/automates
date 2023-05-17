@@ -15,7 +15,15 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-
+    - name: Upgrade Ansible
+      run: |
+        pip install --upgrade ansible
+    - name: Check yum version
+      run: |
+        yum --version
+    - name: Update yum
+      run: |
+          sudo yum update yum -y
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
