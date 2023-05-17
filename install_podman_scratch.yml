@@ -2,7 +2,7 @@
   hosts: 127.0.0.1
   become: yes
   vars:
-    GOPATH: "~/go"
+    GOPATH: "/home/rbanda/go"
     packages_to_install:
       - btrfs-progs-devel
       - conmon
