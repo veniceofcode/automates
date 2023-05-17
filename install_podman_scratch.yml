@@ -2,10 +2,11 @@
   hosts: 127.0.0.1
   become: yes
   tasks:
-    - name: Enable BaseOS repository
-      shell: dnf config-manager --set-enabled BaseOS
+    - name: Enable CodeReady Linux Builder repository
+      shell: subscription-manager repos --enable=codeready-builder-for-rhel-8-x86_64-rpms
+
     - name: Install btrfs-progs-devel package
-      dnf:
+      yum:
         name: btrfs-progs-devel
         state: present
     - name: Install package(s)
