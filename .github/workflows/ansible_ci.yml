@@ -25,6 +25,6 @@ jobs:
       run: pip install ansible
 
     - name: Run Ansible playbook
-      run: ansible-playbook playbook.yml
+      run: ansible-playbook /automates/install_podman_scratch.yml
       env:
         ANSIBLE_HOST_KEY_CHECKING: false
