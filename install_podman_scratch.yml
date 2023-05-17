@@ -126,14 +126,14 @@
         mode: '0755'
 
     - name: Clone ansible-role-podman repository
-       become: yes
-       git:
+      become: yes
+      git:
         repo: https://github.com/alvistack/ansible-role-podman.git
         dest: ~/.ansible/roles/podman
 
     - name: Change directory to ansible-role-podman
-       become: yes
-       shell: cd ~/.ansible/roles/podman
+      become: yes
+      shell: cd ~/.ansible/roles/podman
 
     - name: Upgrade pip and install requirements
       become: yes
