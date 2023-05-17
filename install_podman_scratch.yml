@@ -85,31 +85,39 @@
       get_url:
         url: https://src.fedoraproject.org/rpms/containers-common/raw/main/f/default-policy.json
         dest: /etc/containers/policy.json
+      changed_when: false
     - name: Clone podman repository
       git:
        repo: https://github.com/containers/podman.git
        dest: podman
+      changed_when: false
     - name: Change directory to podman
       command: cd podman
+      changed_when: false
     - name: Build podman with specific build tags
       command: make BUILDTAGS="selinux seccomp"
+      changed_when: false
     - name: Install podman (requires sudo)
       become: yes
       command: make install PREFIX=/usr
+      changed_when: false
     - name: Create ~/.ansible/roles directory
       become: yes
       file:
         path: ~/.ansible/roles
         state: directory
         mode: '0755'
+      changed_when: false
     - name: Clone ansible-role-podman repository
       become: yes
       git:
         repo: https://github.com/alvistack/ansible-role-podman.git
         dest: ~/.ansible/roles/podman
+      changed_when: false
     - name: Change directory to ansible-role-podman
       become: yes
       command: cd ~/.ansible/roles/podman
+      changed_when: false
     - name: Upgrade pip and install requirements
       become: yes
       pip:
@@ -117,13 +125,16 @@
         state: latest
       with_file:
         - ~/.ansible/roles/podman/requirements.txt
+      changed_when: false
     - name: Run molecule converge
       become: yes
       command: molecule converge
       args:
         chdir: ~/.ansible/roles/podman
+      changed_when: false
     - name: Run molecule verify
       become: yes
       command: molecule verify
       args:
         chdir: ~/.ansible/roles/podman
+      changed_when: false
