@@ -25,6 +25,13 @@
       - make
       - pkgconfig  
   tasks:   
+    - name: Check if packages are installed
+      yum:
+        list: "{{ item }}"
+      register: package_check
+      changed_when: false
+      ignore_errors: true
+      loop: "{{ packages_to_install }}"   
     - name: Install dnf packages
       dnf:
         name: "{{ item }}"
