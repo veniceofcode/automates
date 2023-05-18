@@ -2,8 +2,9 @@
   hosts: 127.0.0.1
   become: yes
   tasks:
-    - name: Set GOPATH
-      shell: echo "export GOPATH=~/go" >> ~/.bashrc
+    - name: Set GOPATH environment variable
+      ansible.builtin.set_fact:
+        GOPATH: ~/go
 
     - name: Clone Go repository
       shell: git clone https://go.googlesource.com/go $GOPATH
