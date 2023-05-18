@@ -1,0 +1,18 @@
+- name: Set GOPATH and build Go
+  hosts: 127.0.0.1
+  become: yes
+  tasks:
+    - name: Set GOPATH
+      shell: echo "export GOPATH=~/go" >> ~/.bashrc
+
+    - name: Clone Go repository
+      shell: git clone https://go.googlesource.com/go $GOPATH
+
+    - name: Change to Go source directory
+      shell: cd $GOPATH/src/go
+
+    - name: Run all.bash script
+      shell: ./all.bash
+
+    - name: Update PATH
+      shell: echo "export PATH=$GOPATH/bin:$PATH" >> ~/.bashrc

@@ -36,12 +36,7 @@
       debug:
         var: package_check.results
     - name: Set GOPATH
-      lineinfile:
-        dest: ~/.bashrc
-        line: "export GOPATH=~/go"
-        create: yes
-        insertafter: EOF
-        state: present
+      shell: echo "export GOPATH=~/go" >> $HOME/.bashrc
     - name: Clone Go repository
       git:
         repo: https://go.googlesource.com/go
