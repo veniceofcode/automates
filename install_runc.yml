@@ -1,6 +1,5 @@
 - name: Clone and build runc
   hosts: localhost
-  gather_facts: false
 
   tasks:
     - name: Clone runc repository
