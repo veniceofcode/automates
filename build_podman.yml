@@ -4,6 +4,28 @@
   become: yes
 
   tasks:
+    - name: Install build dependencies
+      dnf:
+          - build-essential
+          - git
+          - golang
+          - go-md2man
+          - libglib2.0-dev
+          - libostree-dev
+          - libseccomp-dev
+          - libdevmapper-dev
+          - libgpgme-dev
+          - libapparmor-dev
+          - libprotobuf-dev
+          - libprotobuf-c-dev
+          - libprotobuf-glib-1.0-dev
+          - libseccomp-dev
+          - libselinux1-dev
+          - pkg-config
+          - runc
+          - go-md2man
+          - libbtrfs-dev
+
     - name: Clone Podman repository
       git:
         repo: https://github.com/containers/podman.git
