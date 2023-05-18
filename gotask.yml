@@ -1,31 +1,26 @@
 ---
-- name: Configure Go environment and build
-  hosts: 127.0.0.1
-  become: yes
+- hosts: your_host
   tasks:
     - name: Set GOPATH environment variable
-      lineinfile:
-        path: ~/.bashrc
-        line: "export GOPATH=~/go"
-        insertafter: EOF
+      become: yes
+      shell: export GOPATH=~/go
 
-    - name: Clone Go repository
+    - name: Clone the Go repository
+      become: yes
       git:
         repo: https://go.googlesource.com/go
-        dest: "{{ lookup('env', 'GOPATH') }}/go/src"
+        dest: "{{ ansible_env.GOPATH }}"
 
-    - name: Change to cloned directory
-      command:
-        cmd: pwd
-        chdir: "{{ lookup('env', 'GOPATH') }}/go/src"
+    - name: Change directory to the Go source directory
+      become: yes
+      shell: cd "{{ ansible_env.GOPATH }}/src"
 
-    - name: Execute all.bash
-      command:
-        cmd: ./src/all.bash
-      
+    - name: Run the all.bash script
+      become: yes
+      shell: ./all.bash
+      args:
+        chdir: "{{ ansible_env.GOPATH }}/src"
 
-    - name: Export Go bin directory to PATH
-      lineinfile:
-        path: ~/.bashrc
-        line: "export PATH={{ lookup('env', 'GOPATH') }}/bin:$PATH"
-        insertafter: EOF
+    - name: Add Go binaries to the PATH environment variable
+      become: yes
+      shell: export PATH="{{ ansible_env.GOPATH }}/bin:$PATH"
