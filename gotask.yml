@@ -1,27 +1,19 @@
 ---
-- name: Configure Go environment and build
-  hosts: 127.0.0.1
-  become: yes
+- hosts: 127.0.0.1
   tasks:
-    - name: Set GOPATH environment variable
-      lineinfile:
-        path: ~/.bashrc
-        line: "export GOPATH=~/go"
-        insertafter: EOF
-
-    - name: Clone Go repository
-      git:
-        repo: https://github.com/golang/go.git
-        dest: "{{ lookup('env', 'GOPATH') }}/src/go"
-
-    - name: Change to cloned directory
-      command:
-        cmd: ./all.bash
-        chdir: "{{ lookup('env', 'GOPATH') }}/go/src"
-
-    - name: Export Go bin directory to PATH
-      lineinfile:
-        path: ~/.bashrc
-        line: "export PATH={{ lookup('env', 'GOPATH') }}/bin:$PATH"
-        insertafter: EOF
-
+  - name: Create GOPATH directory
+    file:
+      path: ~/go
+      state: directory
+  - name: Clone Go source code
+    git:
+      repo: https://go.googlesource.com/go
+      dest: ~/go
+  - name: Change directory to Go source code
+    shell: cd ~/go
+  - name: Change directory to src
+    shell: cd src
+  - name: Run all.bash
+    shell: ./all.bash
+  - name: Export PATH
+    shell: export PATH=$GOPATH/bin:$PATH
