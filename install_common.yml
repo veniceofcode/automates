@@ -1,15 +1,16 @@
 ---
 - hosts: localhost
-  gather_facts: true
+  gather_facts: false
+  remote_user: rbanda
   become: true
   tasks:
     - name: Clone conmon repository
       git:
         repo: https://github.com/containers/conmon
-        dest: "{{ ansible_user | string | regex_replace('^', '/home/') }}/conmon"
+        dest: "/home/rbanda/conmon"
 
     - name: Change directory to conmon
-      shell: cd "{{ ansible_user | string | regex_replace('^', '/home/') }}/conmon"
+      shell: cd "/home/rbanda/conmon"
 
     - name: Set GOCACHE environment variable
       shell: "export GOCACHE=\"$(mktemp -d)\""
@@ -17,10 +18,11 @@
     - name: Build conmon
       shell: make
       args:
-        chdir: "{{ ansible_user | string | regex_replace('^', '/home/') }}/conmon"
+        chdir: "/home/rbanda/conmon"
 
     - name: Install conmon
       shell: sudo make podman
       args:
-        chdir: "{{ ansible_user | string | regex_replace('^', '/home/') }}/conmon"
+        chdir: "/home/rbanda/conmon"
+
 
