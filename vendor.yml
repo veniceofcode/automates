@@ -43,11 +43,11 @@
         executable: /bin/bash
 
     - name: Converge molecule
-      shell:
+      command:
         cmd: molecule converge
         executable: /bin/bash
 
     - name: Verify molecule
-      shell:
+      command:
         cmd: molecule verify
         executable: /bin/bash
