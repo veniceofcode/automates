@@ -44,8 +44,8 @@
 
     - name: Converge molecule
       command:
-        cmd: molecule converge
+        cmd: /usr/local/bin/molecule converge
 
     - name: Verify molecule
       command:
-        cmd: molecule verify
+        cmd: /usr/local/bin/molecule verify
