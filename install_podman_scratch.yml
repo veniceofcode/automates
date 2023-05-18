@@ -41,7 +41,7 @@
       git:
         repo: https://go.googlesource.com/go
         dest: "{{ ansible_env.GOPATH }}"
-        version: latest
+        version: master
       changed_when: false
     - name: Change directory to go
       command: cd "{{ ansible_env.GOPATH }}"
@@ -56,7 +56,7 @@
       git:
        repo: https://github.com/containers/conmon.git
        dest: conmon
-       version: latest
+       version: main
       changed_when: false
     - name: Change directory to conmon
       command: cd conmon
