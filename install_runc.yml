@@ -9,14 +9,12 @@
 
     - name: Change directory to runc
       become: false
-      become_user: "{{ ansible_user }}"
       command: cd "{{ ansible_env.HOME }}/go/src/github.com/opencontainers/runc"
       args:
         chdir: "{{ ansible_env.HOME }}/go/src/github.com/opencontainers/runc"
 
     - name: Build runc
       become: false
-      become_user: "{{ ansible_user }}"
       command: make BUILDTAGS="selinux seccomp"
       args:
         chdir: "{{ ansible_env.HOME }}/go/src/github.com/opencontainers/runc"
