@@ -41,10 +41,13 @@
       git:
         repo: https://go.googlesource.com/go
         dest: "{{ lookup('env', 'GOPATH') }}/src/go"
+        version: master
+    - name: Change to Go source directory
+      become_user: "{{ ansible_user }}"
+      command: cd "{{ gopath }}/src/go"
     - name: Run all.bash script
-      command: "{{ lookup('env', 'GOPATH') }}/src/go/all.bash"
-    - name: Add GOPATH/bin to PATH
-      command: export PATH="{{ lookup('env', 'GOPATH') }}/bin:$PATH"
+      become_user: "{{ ansible_user }}"
+      command: ./all.bash
     - name: Clone conmon repository
       git:
        repo: https://github.com/containers/conmon.git
