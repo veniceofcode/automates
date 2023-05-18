@@ -23,6 +23,3 @@
     - name: Update PATH environment variable
       become: true
       shell: "echo 'export PATH=\"{{ lookup('env', 'GOPATH') }}/bin:$PATH\"' >> ~/.bashrc"
-
-
-

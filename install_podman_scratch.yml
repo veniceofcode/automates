@@ -35,25 +35,7 @@
     - name: Display package verification results
       debug:
         var: package_check.results
-    - name: Clone conmon repository
-      git:
-       repo: https://github.com/containers/conmon.git
-       dest: conmon
-       version: main
-      changed_when: false
-    - name: Change directory to conmon
-      command: cd conmon
-      changed_when: false
-    - name: Set GOCACHE environment variable
-      command: export GOCACHE="$(mktemp -d)"
-      changed_when: false
-    - name: Build conmon
-      command: make
-      changed_when: false
-    - name: Install conmon (requires sudo)
-      become: yes
-      command: make podman
-      changed_when: false
+
     - name: Clone runc repository
       git:
        repo: https://github.com/opencontainers/runc.git
