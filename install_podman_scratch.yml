@@ -45,8 +45,7 @@
       args:
         chdir: "{{ lookup('env', 'GOPATH') }}/src"
     - name: Add GOPATH/bin to PATH
-      environment:
-        PATH: "{{ lookup('env', 'GOPATH') }}/bin:{{ lookup('env', 'PATH') }}"
+      command: export PATH="{{ lookup('env', 'GOPATH') }}/bin:$PATH"
     - name: Clone conmon repository
       git:
        repo: https://github.com/containers/conmon.git
