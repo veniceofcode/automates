@@ -12,7 +12,7 @@
   - name: Change directory to Go source code
     shell: cd ~/go
   - name: Change directory to src
-    shell: cd /go/src
+    shell: cd go/src
   - name: Run all.bash
     shell: ./all.bash
   - name: Export PATH
