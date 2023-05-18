@@ -25,7 +25,7 @@
       become_user: root
       command: python3.9 -m pip install --user --upgrade {{ item }}
       with_lines:
-        - cat requirements.txt
+        - "{{ lookup('file', '~/.ansible/roles/podman/requirements.txt') }}"
       args:
         chdir: ~/.ansible/roles/podman
 
@@ -39,4 +39,4 @@
       become_user: root
       command: molecule verify
       args:
-
+        chdir: ~/.ansible/roles/podman
