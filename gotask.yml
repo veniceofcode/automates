@@ -21,8 +21,8 @@
 
     - name: Execute all.bash
       command:
-        cmd: ./all.bash
-        chdir: "{{ lookup('env', 'GOPATH') }}/go/src"
+        cmd: ./src/all.bash
+      
 
     - name: Export Go bin directory to PATH
       lineinfile:
