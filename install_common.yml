@@ -6,10 +6,10 @@
     - name: Clone conmon repository
       git:
         repo: https://github.com/containers/conmon
-        dest: "{{ ansible_user_dir }}/conmon"
+        dest: "{{ ansible_env.HOME }}/conmon"
 
     - name: Change directory to conmon
-      shell: cd "{{ ansible_user_dir }}/conmon"
+      shell: cd "{{ ansible_env.HOME }}/conmon"
 
     - name: Set GOCACHE environment variable
       shell: "export GOCACHE=\"$(mktemp -d)\""
@@ -17,9 +17,10 @@
     - name: Build conmon
       shell: make
       args:
-        chdir: "{{ ansible_user_dir }}/conmon"
+        chdir: "{{ ansible_env.HOME }}/conmon"
 
     - name: Install conmon
       shell: sudo make podman
       args:
-        chdir: "{{ ansible_user_dir }}/conmon"
+        chdir: "{{ ansible_env.HOME }}/conmon"
+
