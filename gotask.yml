@@ -1,5 +1,5 @@
 ---
-- hosts: your_host
+- hosts: 127.0.0.1
   tasks:
     - name: Set GOPATH environment variable
       become: yes
