@@ -27,8 +27,8 @@
     - name: Debug GOPATH variable
       debug:
         var: GOPATH    
-    - name: Install yum packages
-      yum:
+    - name: Install dnf packages
+      dnf:
         name: "{{ item }}"
         state: present
       loop: "{{ packages_to_install }}"
