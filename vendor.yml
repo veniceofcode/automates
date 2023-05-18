@@ -22,10 +22,12 @@
         chdir: ~/.ansible/roles/podman
 
     - name: Upgrade pip3 and install requirements
-      become_user: root
-      command: python3.9 -m pip install --user --upgrade {{ item }}
+      pip:
+        name: "{{ item }}"
+        state: latest
       with_lines:
         - "{{ lookup('file', '~/.ansible/roles/podman/requirements.txt') }}"
+      become_user: root
       args:
         chdir: ~/.ansible/roles/podman
 
