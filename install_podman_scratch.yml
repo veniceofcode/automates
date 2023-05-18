@@ -36,7 +36,7 @@
       debug:
         var: package_check.results
     - name: Set GOPATH environment variable
-      shell: export GOPATH=~/go
+      shell: echo "export GOPATH=~/go" >> ~/.bashrc
     - name: Clone Go repository
       git:
         repo: https://go.googlesource.com/go
