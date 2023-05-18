@@ -25,23 +25,16 @@
       - make
       - pkgconfig  
   tasks:   
-    - name: Verify DNF packages
+    - name: Verify and install missing DNF packages
       dnf:
         name: "{{ item }}"
-        state: present
+        state: latest
       loop: "{{ packages_to_install }}"
       register: package_check
-
+      failed_when: false
     - name: Display package verification results
       debug:
         var: package_check.results
-    
-    - name: Install dnf packages
-      dnf:
-        name: "{{ item }}"
-        state: present
-      loop: "{{ packages_to_install }}"
-      ignore_errors: yes
     - name: Set GOPATH environment variable
       shell: export GOPATH=~/go
     - name: Clone Go repository
