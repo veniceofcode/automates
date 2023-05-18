@@ -1,6 +1,6 @@
 ---
 - name: Create directories and download files
-  hosts: your_target_host
+  hosts: localhost
   become: true
 
   tasks:
