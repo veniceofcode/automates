@@ -29,19 +29,36 @@
       yum:
         list: "{{ item }}"
       register: package_check
-      changed_when: false
+      changed_when: true
       ignore_errors: true
-      loop: "{{ packages_to_install }}"   
-    - name: Install dnf packages
-      dnf:
-        name: "{{ item }}"
+      loop:
+        - btrfs-progs-devel
+        - conmon
+        - containernetworking-plugins
+        - containers-common
+        - crun
+        - device-mapper-devel
+        - git
+        - glib2-devel
+        - glibc-static
+        - go
+        - golang-github-cpuguy83-md2man
+        - gpgme-devel
+        - iptables
+        - libassuan-devel
+        - libgpg-error-devel
+        - libseccomp-devel
+        - libselinux-devel
+        - make
+        - pkgconfig 
+
+    - name: Install packages
+      yum:
+        name: "{{ item.item }}"
         state: present
-      when: package_check.results[ansible_loop.index0].rc != 0
-      loop: "{{ package_check.results }}"
-      ignore_errors: yes
-#    - name: Set GOPATH environment variable
-#      command: echo "export GOPATH=~/go" >> ~/.bashrc
-#      changed_when: false
+      when: item.rc != 0
+      loop: "{{ package_check.results | default([]) }}"
+
     - name: Clone go repository
       git:
         repo: https://go.googlesource.com/go
