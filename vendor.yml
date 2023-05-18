@@ -1,7 +1,7 @@
 ---
 - name: Execute sudo su commands
   hosts: localhost
-  gather_facts: true
+  gather_facts: false
   become: true
 
   tasks:
@@ -16,24 +16,27 @@
         dest: ~/.ansible/roles/podman
 
     - name: Change to ansible-role-podman directory
-      become_user: rbanda
+      become_user: root
       shell: cd ~/.ansible/roles/podman
+      args:
+        chdir: ~/.ansible/roles/podman
 
     - name: Upgrade pip3 and install requirements
-      become_user: rbanda
+      become_user: root
       command: python3.9 -m pip install --user --upgrade {{ item }}
       with_lines:
-        - cat ~/.ansible/roles/podman/requirements.txt
+        - cat requirements.txt
+      args:
+        chdir: ~/.ansible/roles/podman
 
     - name: Converge molecule
-      become_user: rbanda
+      become_user: root
       command: molecule converge
       args:
         chdir: ~/.ansible/roles/podman
 
     - name: Verify molecule
-      become_user: rbanda
+      become_user: root
       command: molecule verify
       args:
-        chdir: ~/.ansible/roles/podman
 
