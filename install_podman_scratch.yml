@@ -1,7 +1,6 @@
 - name: Install podman from scratch
   hosts: 127.0.0.1
-  gather_facts: false
-  become: false
+  become: yes
   environment:
     GOPATH: ~/go
   vars:
@@ -46,7 +45,6 @@
     - name: Update PATH environment variable
       become: true
       shell: "echo 'export PATH=\"{{ lookup('env', 'GOPATH') }}/bin:$PATH\"' >> ~/.bashrc"
-
     - name: Verify and install missing DNF packages
       dnf:
         name: "{{ item }}"
@@ -54,12 +52,9 @@
       loop: "{{ packages_to_install }}"
       register: package_check
       failed_when: false
-    
     - name: Display package verification results
       debug:
         var: package_check.results
-
-
     - name: Clone conmon repository
       git:
        repo: https://github.com/containers/conmon.git
