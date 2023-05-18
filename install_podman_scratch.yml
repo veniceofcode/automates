@@ -41,10 +41,7 @@
         version: master
       changed_when: false
     - name: Change directory to $GOPATH/src and run all.bash
-      command:
-        cmd: |
-         cd {{ lookup('env', 'GOPATH') }}/src
-         ./all.bash
+      command: cd {{ lookup('env', 'GOPATH') }}/src && ./all.bash
       args:
         executable: /bin/bash
     - name: Add GOPATH/bin to PATH
