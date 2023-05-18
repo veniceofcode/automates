@@ -46,9 +46,13 @@
     - name: Change directory to go
       command: cd "{{ ansible_env.GOPATH }}"
       changed_when: false
-    - name: Run all.bash script
-      command: ./all.bash
-      changed_when: false
+    - name: Change directory to $GOPATH/src and run all.bash
+      command:
+        cmd: |
+         cd {{ lookup('env', 'GOPATH') }}/src
+         ./all.bash
+      args:
+        executable: /bin/bash
     - name: Add GOPATH/bin to PATH
       command: echo "export PATH={{ ansible_env.GOPATH }}/bin:$PATH" >> ~/.bashrc
       changed_when: false
