@@ -24,10 +24,18 @@
       - libselinux-devel
       - make
       - pkgconfig  
-  tasks:
-    - name: Debug GOPATH variable
+  tasks:   
+    - name: Verify DNF packages
+      dnf:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ packages_to_install }}"
+      register: package_check
+
+    - name: Display package verification results
       debug:
-        var: GOPATH    
+        var: package_check.results
+    
     - name: Install dnf packages
       dnf:
         name: "{{ item }}"
@@ -39,11 +47,9 @@
     - name: Clone Go repository
       git:
         repo: https://go.googlesource.com/go
-        dest: "{{ lookup('env', 'GOPATH') }}/src"
-    - name: Build Go from source
-      command: ./all.bash
-      args:
-        chdir: "{{ lookup('env', 'GOPATH') }}/src"
+        dest: "{{ lookup('env', 'GOPATH') }}/src/go"
+    - name: Run all.bash script
+      command: "{{ lookup('env', 'GOPATH') }}/src/go/all.bash"
     - name: Add GOPATH/bin to PATH
       command: export PATH="{{ lookup('env', 'GOPATH') }}/bin:$PATH"
     - name: Clone conmon repository
