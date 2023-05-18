@@ -1,10 +1,11 @@
 ---
-- hosts: localhost
+- hosts: 127.0.0.1
   gather_facts: false
   become: false
   tasks:
     - name: Set GOPATH environment variable
       become: true
+      become_user: rbanda
       shell: "echo 'export GOPATH=~/go' >> ~/.bashrc"
 
     - name: Clone Go repository
@@ -12,15 +13,19 @@
         repo: https://go.googlesource.com/go
         dest: "{{ lookup('env', 'GOPATH') }}/src"
         version: master
+        accept_hostkey: yes
 
     - name: Build Go source code
       become: true
+      become_user: rbanda
       shell: |
-        cd "{{ lookup('env', 'GOPATH') }}/src"
-        ./all.bash
+        cd "{{ lookup('env', 'GOPATH') }}/src/go/src"
+        ./make.bash
 
     - name: Update PATH environment variable
       become: true
+      become_user: rbanda
       shell: "echo 'export PATH=\"{{ lookup('env', 'GOPATH') }}/bin:$PATH\"' >> ~/.bashrc"
+
 
 
