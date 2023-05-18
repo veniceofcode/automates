@@ -5,25 +5,21 @@
   tasks:
     - name: Clone the Go repository
       become: yes
-      become_user: your_user
       git:
         repo: https://go.googlesource.com/go
         dest: "{{ lookup('env', 'GOPATH') }}/src/go"
 
     - name: Change directory to the Go source directory
       become: yes
-      become_user: your_user
       shell: cd "{{ lookup('env', 'GOPATH') }}/src/go"
 
     - name: Run the all.bash script
       become: yes
-      become_user: your_user
       shell: ./all.bash
       args:
         chdir: "{{ lookup('env', 'GOPATH') }}/src/go"
 
     - name: Add Go binaries to the PATH environment variable
       become: yes
-      become_user: your_user
       shell: export PATH="{{ lookup('env', 'GOPATH') }}/bin:$PATH"
 
