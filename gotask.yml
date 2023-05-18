@@ -1,6 +1,6 @@
 ---
 - name: Configure Go environment and build
-  hosts: your_host
+  hosts: 127.0.0.1
   become: yes
   tasks:
     - name: Set GOPATH environment variable
@@ -13,7 +13,7 @@
       git:
         repo: https://go.googlesource.com/go
         dest: "{{ lookup('env', 'GOPATH') }}/src/go"
-        
+
     - name: Change to cloned directory
       shell:
         cmd: pwd
