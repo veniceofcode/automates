@@ -1,0 +1,22 @@
+---
+- name: Clone and build Podman from GitHub
+  hosts: localhost
+  become: yes
+
+  tasks:
+    - name: Clone Podman repository
+      git:
+        repo: https://github.com/containers/podman.git
+        dest: /opt/podman
+
+    - name: Change directory to Podman repository
+      command:
+        cmd: cd /opt/podman
+
+    - name: Build Podman
+      command:
+        cmd: make BUILDTAGS="selinux seccomp"
+
+    - name: Install Podman
+      command:
+        cmd: sudo make install PREFIX=/usr

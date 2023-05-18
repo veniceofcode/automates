@@ -35,25 +35,6 @@
     - name: Display package verification results
       debug:
         var: package_check.results
-    - name: Create /etc/containers directory
-      become: yes
-      file:
-        path: /etc/containers
-        state: directory
-        mode: '0755'
-      changed_when: false
-    - name: Download registries.conf
-      become: yes
-      get_url:
-        url: https://src.fedoraproject.org/rpms/containers-common/raw/main/f/registries.conf
-        dest: /etc/containers/registries.conf
-      changed_when: false
-    - name: Download policy.json
-      become: yes
-      get_url:
-        url: https://src.fedoraproject.org/rpms/containers-common/raw/main/f/default-policy.json
-        dest: /etc/containers/policy.json
-      changed_when: false
     - name: Clone podman repository
       git:
        repo: https://github.com/containers/podman.git
