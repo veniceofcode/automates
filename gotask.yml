@@ -11,7 +11,7 @@
     - name: Change to Go source directory
       shell:
         cmd: ./all.bash
-        chdir: "{{ gopath }}/go/src"
+        chdir: "{{ GOPATH }}/go/src"
 
     - name: Update PATH
       shell: echo "export PATH=$GOPATH/bin:$PATH" >> ~/.bashrc
