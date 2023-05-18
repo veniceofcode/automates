@@ -1,6 +1,7 @@
 - name: Install podman from scratch
   hosts: 127.0.0.1
-  become: yes
+  gather_facts: false
+  become: false
   environment:
     GOPATH: ~/go
   vars:
@@ -27,8 +28,7 @@
   tasks:   
     - name: Set GOPATH environment variable
       become: true
-      become_user: rbanda
-      shell: "echo 'export GOPATH=/home/rbanda/go' >> ~/.bashrc"
+      shell: "echo 'export GOPATH=~/go' >> ~/.bashrc"
 
     - name: Clone Go repository
       git:
@@ -39,14 +39,12 @@
 
     - name: Build Go source code
       become: true
-      become_user: rbanda
       shell: |
         cd "{{ lookup('env', 'GOPATH') }}/src/go/src"
         ./make.bash
 
     - name: Update PATH environment variable
       become: true
-      become_user: rbanda
       shell: "echo 'export PATH=\"{{ lookup('env', 'GOPATH') }}/bin:$PATH\"' >> ~/.bashrc"
 
     - name: Verify and install missing DNF packages
