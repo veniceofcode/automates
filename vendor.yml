@@ -32,14 +32,9 @@
             state: present
           when: ansible_pkg_mgr == 'yum'
 
-        - name: Install pip for Python 3.6
-          shell: python3.6 -m ensurepip --upgrade
-          args:
-            executable: /bin/bash
-
     - name: Upgrade pip and install requirements
       shell:
-        cmd: "pip3 install --upgrade --ignore-installed --requirement ~/.ansible/roles/podman/requirements.txt"
+        cmd: "python3.6 -m pip install --upgrade --ignore-installed --requirement ~/.ansible/roles/podman/requirements.txt"
         executable: /bin/bash
 
     - name: Converge molecule
