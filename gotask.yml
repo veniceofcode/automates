@@ -11,7 +11,7 @@
 
     - name: Clone Go repository
       git:
-        repo: https://go.googlesource.com/go
+        repo: https://github.com/golang/go.git
         dest: "{{ lookup('env', 'GOPATH') }}/src/go"
 
     - name: Change to cloned directory
