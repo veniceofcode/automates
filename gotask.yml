@@ -17,7 +17,7 @@
     - name: Change to cloned directory
       command:
         cmd: ./all.bash
-        chdir: "{{ lookup('env', 'GOPATH') }}/src/go/src"
+        chdir: "{{ lookup('env', 'GOPATH') }}/go/src"
 
     - name: Export Go bin directory to PATH
       lineinfile:
