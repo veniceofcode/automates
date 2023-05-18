@@ -12,17 +12,17 @@
     - name: Clone Go repository
       git:
         repo: https://go.googlesource.com/go
-        dest: "{{ lookup('env', 'GOPATH') }}/src/go"
+        dest: "{{ lookup('env', 'GOPATH') }}/go/src"
 
     - name: Change to cloned directory
       command:
         cmd: pwd
-        chdir: "{{ lookup('env', 'GOPATH') }}/src/go"
+        chdir: "{{ lookup('env', 'GOPATH') }}/go/src"
 
     - name: Execute all.bash
       command:
         cmd: ./all.bash
-        chdir: "{{ lookup('env', 'GOPATH') }}/src/go"
+        chdir: "{{ lookup('env', 'GOPATH') }}/go/src"
 
     - name: Export Go bin directory to PATH
       lineinfile:
