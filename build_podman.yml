@@ -10,7 +10,7 @@
       register: git_clone_output
 
     - name: Change to Podman directory
-      become: no
+      become: yes
       shell: cd /opt/podman
       args:
         chdir: /opt/podman
