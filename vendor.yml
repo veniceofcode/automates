@@ -14,26 +14,21 @@
         dest: ~/.ansible/roles/podman
 
     - name: Change to ~/.ansible/roles/podman directory
-      command:
+      shell:
         cmd: cd ~/.ansible/roles/podman
-        warn: no
         executable: /bin/bash
 
     - name: Upgrade pip and install requirements
-      pip:
-        name: "{{ item }}"
-        state: latest
-      with_lines:
-        - cat ~/.ansible/roles/podman/requirements.txt
+      shell:
+        cmd: "pip3 install --upgrade --ignore-installed --requirement ~/.ansible/roles/podman/requirements.txt"
+        executable: /bin/bash
 
     - name: Converge molecule
-      command:
+      shell:
         cmd: molecule converge
-        warn: no
         executable: /bin/bash
 
     - name: Verify molecule
-      command:
+      shell:
         cmd: molecule verify
-        warn: no
         executable: /bin/bash
