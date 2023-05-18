@@ -9,7 +9,7 @@
       shell: git clone https://go.googlesource.com/go $GOPATH
 
     - name: Change to Go source directory
-      shell: cd $GOPATH/src/go
+      shell: cd $GOPATH/src/
 
     - name: Run all.bash script
       shell: ./all.bash
