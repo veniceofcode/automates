@@ -11,12 +11,16 @@
 
     - name: Change directory to Podman repository
       command:
-        cmd: cd /opt/podman
+        cmd: make BUILDTAGS="selinux seccomp"
+        chdir: /opt/podman
 
     - name: Build Podman
       command:
         cmd: make BUILDTAGS="selinux seccomp"
+        chdir: /opt/podman
 
     - name: Install Podman
       command:
         cmd: sudo make install PREFIX=/usr
+        chdir: /opt/podman
+
