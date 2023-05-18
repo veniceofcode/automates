@@ -45,9 +45,7 @@
     - name: Converge molecule
       command:
         cmd: molecule converge
-        executable: /bin/bash
 
     - name: Verify molecule
       command:
         cmd: molecule verify
-        executable: /bin/bash
