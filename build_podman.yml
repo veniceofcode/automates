@@ -1,49 +1,29 @@
 ---
-- name: Clone and build Podman from GitHub
+- name: Clone and install Podman
   hosts: localhost
   become: yes
-
   tasks:
-    - name: Install build dependencies
-      dnf:
-        name:
-          - build-essential
-          - git
-          - golang
-          - go-md2man
-          - libglib2.0-dev
-          - libostree-dev
-          - libseccomp-dev
-          - libdevmapper-dev
-          - libgpgme-dev
-          - libapparmor-dev
-          - libprotobuf-dev
-          - libprotobuf-c-dev
-          - libprotobuf-glib-1.0-dev
-          - libseccomp-dev
-          - libselinux1-dev
-          - pkg-config
-          - runc
-          - go-md2man
-          - libbtrfs-dev
-
     - name: Clone Podman repository
       git:
         repo: https://github.com/containers/podman.git
         dest: /opt/podman
+      register: git_clone_output
 
-    - name: Change directory to Podman repository
-      command:
-        cmd: make BUILDTAGS="selinux seccomp"
+    - name: Change to Podman directory
+      become: no
+      shell: cd /opt/podman
+      args:
         chdir: /opt/podman
+      when: git_clone_output.changed
 
     - name: Build Podman
-      command:
-        cmd: make BUILDTAGS="selinux seccomp"
+      shell: make BUILDTAGS=""
+      args:
         chdir: /opt/podman
+      when: git_clone_output.changed
 
     - name: Install Podman
-      command:
-        cmd: sudo make install PREFIX=/usr
+      shell: sudo make install
+      args:
         chdir: /opt/podman
-
+      when: git_clone_output.changed
