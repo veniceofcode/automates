@@ -32,26 +32,33 @@
       loop: "{{ packages_to_install }}"
       register: package_check
       failed_when: false
+    
     - name: Display package verification results
       debug:
         var: package_check.results
+    
     - name: Set GOPATH environment variable
       become: true
       shell: "echo 'export GOPATH=~/go' >> ~/.bashrc"
+
     - name: Clone Go repository
       git:
         repo: https://go.googlesource.com/go
         dest: "{{ lookup('env', 'GOPATH') }}/src"
         version: master
         accept_hostkey: yes
+
     - name: Build Go source code
       become: true
       shell: |
         cd "{{ lookup('env', 'GOPATH') }}/src/go/src"
         ./make.bash
+
     - name: Update PATH environment variable
       become: true
       shell: "echo 'export PATH=\"{{ lookup('env', 'GOPATH') }}/bin:$PATH\"' >> ~/.bashrc"
+
+    - name: Clone conmon repository
       git:
        repo: https://github.com/containers/conmon.git
        dest: conmon
