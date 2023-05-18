@@ -1,0 +1,30 @@
+- name: Clone and build runc
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Clone runc repository
+      git:
+        repo: https://github.com/opencontainers/runc.git
+        dest: "{{ ansible_env.GOPATH }}/src/github.com/opencontainers/runc"
+
+    - name: Change directory to runc
+      become: false
+      become_user: "{{ ansible_user }}"
+      command: cd "{{ ansible_env.GOPATH }}/src/github.com/opencontainers/runc"
+      args:
+        chdir: "{{ ansible_env.GOPATH }}/src/github.com/opencontainers/runc"
+
+    - name: Build runc
+      become: false
+      become_user: "{{ ansible_user }}"
+      command: make BUILDTAGS="selinux seccomp"
+      args:
+        chdir: "{{ ansible_env.GOPATH }}/src/github.com/opencontainers/runc"
+
+    - name: Copy runc binary to /usr/bin
+      become: true
+      copy:
+        src: "{{ ansible_env.GOPATH }}/src/github.com/opencontainers/runc/runc"
+        dest: /usr/bin/runc
+        mode: 0755

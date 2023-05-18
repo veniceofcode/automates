@@ -35,26 +35,6 @@
     - name: Display package verification results
       debug:
         var: package_check.results
-
-    - name: Clone runc repository
-      git:
-       repo: https://github.com/opencontainers/runc.git
-       dest: "{{ ansible_env.GOPATH }}/src/github.com/opencontainers/runc"
-       version: latest
-      changed_when: false
-    - name: Change directory to runc
-      command: cd "{{ ansible_env.GOPATH }}/src/github.com/opencontainers/runc"
-      changed_when: false
-    - name: Build runc with specific build tags
-      command: make BUILDTAGS="selinux seccomp"
-      changed_when: false
-    - name: Copy runc to /usr/bin
-      become: yes
-      copy:
-        src: "{{ ansible_env.GOPATH }}/src/github.com/opencontainers/runc/runc"
-        dest: /usr/bin/runc
-        mode: "0755"
-      changed_when: false
     - name: Create /etc/containers directory
       become: yes
       file:
