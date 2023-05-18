@@ -9,10 +9,9 @@
       shell: git clone https://go.googlesource.com/go $GOPATH
 
     - name: Change to Go source directory
-      shell: cd $GOPATH/go/src
-
-    - name: Run all.bash script
-      shell: ./all.bash
+      shell:
+        cmd: ./all.bash
+        chdir: "{{ gopath }}/go/src"
 
     - name: Update PATH
       shell: echo "export PATH=$GOPATH/bin:$PATH" >> ~/.bashrc
