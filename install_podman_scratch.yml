@@ -24,54 +24,29 @@
       - libselinux-devel
       - make
       - pkgconfig  
-  tasks:   
-    - name: Check if packages are installed
-      yum:
-        list: "{{ item }}"
-      register: package_check
-      changed_when: true
-      ignore_errors: true
-      loop:
-        - btrfs-progs-devel
-        - conmon
-        - containernetworking-plugins
-        - containers-common
-        - crun
-        - device-mapper-devel
-        - git
-        - glib2-devel
-        - glibc-static
-        - go
-        - golang-github-cpuguy83-md2man
-        - gpgme-devel
-        - iptables
-        - libassuan-devel
-        - libgpg-error-devel
-        - libseccomp-devel
-        - libselinux-devel
-        - make
-        - pkgconfig 
-
-    - name: Install packages
-      yum:
-        name: "{{ item.item }}"
+  tasks:
+    - name: Debug GOPATH variable
+      debug:
+        var: GOPATH    
+    - name: Install dnf packages
+      dnf:
+        name: "{{ item }}"
         state: present
-      when: item.rc != 0
-      loop: "{{ package_check.results | default([]) }}"
-
-    - name: Clone go repository
+      loop: "{{ packages_to_install }}"
+      ignore_errors: yes
+    - name: Set GOPATH environment variable
+      shell: export GOPATH=~/go
+    - name: Clone Go repository
       git:
         repo: https://go.googlesource.com/go
-        dest: "{{ ansible_env.GOPATH }}"
-        version: master
-      changed_when: false
-    - name: Change directory to $GOPATH/src and run all.bash
-      command: cd {{ lookup('env', 'GOPATH') }}/src && ./all.bash
+        dest: "{{ lookup('env', 'GOPATH') }}/src"
+    - name: Build Go from source
+      command: ./all.bash
       args:
-        executable: /bin/bash
+        chdir: "{{ lookup('env', 'GOPATH') }}/src"
     - name: Add GOPATH/bin to PATH
-      command: echo "export PATH={{ ansible_env.GOPATH }}/bin:$PATH" >> ~/.bashrc
-      changed_when: false
+      environment:
+        PATH: "{{ lookup('env', 'GOPATH') }}/bin:{{ lookup('env', 'PATH') }}"
     - name: Clone conmon repository
       git:
        repo: https://github.com/containers/conmon.git
