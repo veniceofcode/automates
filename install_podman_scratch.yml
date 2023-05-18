@@ -24,10 +24,7 @@
       - libselinux-devel
       - make
       - pkgconfig  
-  tasks:
-    - name: Debug GOPATH variable
-      debug:
-        var: GOPATH    
+  tasks:   
     - name: Install dnf packages
       dnf:
         name: "{{ item }}"
