@@ -13,8 +13,6 @@
       git:
         repo: https://go.googlesource.com/go
         dest: "{{ lookup('env', 'GOPATH') }}/src/go"
-      command:
-        cmd: pwd
 
     - name: Change to cloned directory
       command:
