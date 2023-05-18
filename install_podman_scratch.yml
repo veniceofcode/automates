@@ -43,10 +43,8 @@
         dest: "{{ lookup('env', 'GOPATH') }}/src/go"
         version: master
     - name: Change to Go source directory
-      become_user: "{{ ansible_user }}"
       command: cd "{{ gopath }}/src/go"
     - name: Run all.bash script
-      become_user: "{{ ansible_user }}"
       command: ./all.bash
     - name: Clone conmon repository
       git:
