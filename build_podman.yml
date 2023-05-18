@@ -6,6 +6,7 @@
   tasks:
     - name: Install build dependencies
       dnf:
+        name:
           - build-essential
           - git
           - golang
