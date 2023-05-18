@@ -40,9 +40,6 @@
         dest: "{{ ansible_env.GOPATH }}"
         version: master
       changed_when: false
-    - name: Change directory to go
-      command: cd "{{ ansible_env.GOPATH }}"
-      changed_when: false
     - name: Change directory to $GOPATH/src and run all.bash
       command:
         cmd: |
