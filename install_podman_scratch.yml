@@ -36,7 +36,8 @@
       dnf:
         name: "{{ item }}"
         state: present
-      loop: "{{ packages_to_install }}"
+      when: package_check.results[ansible_loop.index0].rc != 0
+      loop: "{{ package_check.results }}"
       ignore_errors: yes
 #    - name: Set GOPATH environment variable
 #      command: echo "export GOPATH=~/go" >> ~/.bashrc
