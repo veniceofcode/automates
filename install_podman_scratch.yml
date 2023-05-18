@@ -25,18 +25,6 @@
       - make
       - pkgconfig  
   tasks:   
-    - name: Verify and install missing DNF packages
-      dnf:
-        name: "{{ item }}"
-        state: latest
-      loop: "{{ packages_to_install }}"
-      register: package_check
-      failed_when: false
-    
-    - name: Display package verification results
-      debug:
-        var: package_check.results
-    
     - name: Set GOPATH environment variable
       become: true
       become_user: rbanda
@@ -60,6 +48,18 @@
       become: true
       become_user: rbanda
       shell: "echo 'export PATH=\"{{ lookup('env', 'GOPATH') }}/bin:$PATH\"' >> ~/.bashrc"
+
+    - name: Verify and install missing DNF packages
+      dnf:
+        name: "{{ item }}"
+        state: latest
+      loop: "{{ packages_to_install }}"
+      register: package_check
+      failed_when: false
+    
+    - name: Display package verification results
+      debug:
+        var: package_check.results
 
 
     - name: Clone conmon repository
