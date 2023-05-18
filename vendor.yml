@@ -41,11 +41,24 @@
       shell:
         cmd: "python3.6 -m pip install molecule"
         executable: /bin/bash
-
-    - name: Converge molecule
+        
+    - name: Converge using Molecule
       command:
         cmd: /usr/local/bin/molecule converge
+      register: converge_result
+      changed_when: false
 
-    - name: Verify molecule
+    - name: Display Converge output
+      debug:
+        var: converge_result.stdout
+
+    - name: Verify using Molecule
       command:
         cmd: /usr/local/bin/molecule verify
+      register: verify_result
+      changed_when: false
+
+    - name: Display Verify output
+      debug:
+        var: verify_result.stdout
+
