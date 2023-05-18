@@ -5,7 +5,6 @@
   tasks:
     - name: Set GOPATH environment variable
       become: true
-      become_user: your_username
       shell: "echo 'export GOPATH=~/go' >> ~/.bashrc"
 
     - name: Clone Go repository
@@ -16,14 +15,12 @@
 
     - name: Build Go source code
       become: true
-      become_user: your_username
       shell: |
         cd "{{ lookup('env', 'GOPATH') }}/src"
         ./all.bash
 
     - name: Update PATH environment variable
       become: true
-      become_user: your_username
       shell: "echo 'export PATH=\"{{ lookup('env', 'GOPATH') }}/bin:$PATH\"' >> ~/.bashrc"
 
 
