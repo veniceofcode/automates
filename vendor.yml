@@ -37,6 +37,11 @@
         cmd: "python3.6 -m pip install --upgrade --ignore-installed --requirement ~/.ansible/roles/podman/requirements.txt"
         executable: /bin/bash
 
+    - name: Install molecule
+      shell:
+        cmd: "python3.6 -m pip install molecule"
+        executable: /bin/bash
+
     - name: Converge molecule
       shell:
         cmd: molecule converge
