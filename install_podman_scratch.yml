@@ -35,18 +35,25 @@
     - name: Display package verification results
       debug:
         var: package_check.results
-    - name: Set GOPATH
-      shell: echo "export GOPATH=~/go" >> $HOME/.bashrc
+    - name: Set GOPATH environment variable
+      become: true
+      shell: "echo 'export GOPATH=~/go' >> ~/.bashrc"
     - name: Clone Go repository
       git:
         repo: https://go.googlesource.com/go
-        dest: "{{ lookup('env', 'GOPATH') }}/src/go"
+        dest: "{{ lookup('env', 'GOPATH') }}/src"
         version: master
-    - name: Change to Go source directory
-      command: cd "{{ GOPATH }}/src/go"
-    - name: Run all.bash script
-      command: ./all.bash
-    - name: Clone conmon repository
+        accept_hostkey: yes
+
+    - name: Build Go source code
+      become: true
+      shell: |
+        cd "{{ lookup('env', 'GOPATH') }}/src/go/src"
+        ./make.bash
+
+    - name: Update PATH environment variable
+      become: true
+      shell: "echo 'export PATH=\"{{ lookup('env', 'GOPATH') }}/bin:$PATH\"' >> ~/.bashrc"
       git:
        repo: https://github.com/containers/conmon.git
        dest: conmon
