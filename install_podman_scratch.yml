@@ -39,7 +39,7 @@
     
     - name: Set GOPATH environment variable
       become: true
-      shell: "echo 'export GOPATH=~/go' >> ~/.bashrc"
+      shell: "echo 'export GOPATH=/home/your_username/go' >> ~/.bashrc"
 
     - name: Clone Go repository
       git:
