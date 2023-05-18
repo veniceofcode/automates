@@ -18,11 +18,15 @@ jobs:
     - name: Upgrade Ansible
       run: |
         pip install --upgrade ansible
+
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
         python-version: 3.x
-
+    - name: Install dnf Python module
+      run: |
+        sudo apt update
+        sudo apt install -y python3-dnf
     - name: Install Ansible
       run: pip install ansible
 
