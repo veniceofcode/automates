@@ -1,25 +1,11 @@
 ---
 - hosts: 127.0.0.1
+  become: yes
   environment:
     GOPATH: "~/go"
   tasks:
     - name: Clone the Go repository
-      become: yes
       git:
         repo: https://go.googlesource.com/go
         dest: "{{ lookup('env', 'GOPATH') }}/src/go"
-
-    - name: Change directory to the Go source directory
-      become: yes
-      shell: cd "{{ lookup('env', 'GOPATH') }}/src/go"
-
-    - name: Run the all.bash script
-      become: yes
-      shell: ./all.bash
-      args:
-        chdir: "{{ lookup('env', 'GOPATH') }}/src/go"
-
-    - name: Add Go binaries to the PATH environment variable
-      become: yes
-      shell: export PATH="{{ lookup('env', 'GOPATH') }}/bin:$PATH"
 
